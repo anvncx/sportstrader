@@ -1,0 +1,6 @@
+.nav-auth-link{padding:8px 0;background:transparent;border:0;color:#c0c5cc;font:inherit;font-weight:600;cursor:pointer;transition:color .18s ease}
+.nav-auth-link:hover{color:#f5f7fa}
+.nav-auth-link:disabled{opacity:.75;cursor:default}
+.nav-signup-link{color:var(--lime)}
+.nav-user{display:inline-flex;align-items:center}
+@media(max-width:720px){.nav-auth-link{text-align:left}.nav-signup-link{padding:0}}
