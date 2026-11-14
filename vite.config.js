@@ -13,7 +13,8 @@ export default defineConfig({
         home: resolve(root, 'index.html'),
         howItWorks: resolve(root, 'how-it-works.html'),
         faq: resolve(root, 'faq.html'),
-        rules: resolve(root, 'rules.html')
+        rules: resolve(root, 'rules.html'),
+        dashboard: resolve(root, 'dashboard.html')
       }
     }
   }

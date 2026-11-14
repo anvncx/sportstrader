@@ -11,9 +11,13 @@
   "dependencies": {
     "@clerk/react": "^6.18.8",
     "@vitejs/plugin-react": "latest",
+    "convex": "^1.50.0",
     "lucide-react": "^0.468.0",
     "react": "latest",
     "react-dom": "latest",
     "vite": "latest"
+  },
+  "devDependencies": {
+    "typescript": "^7.0.2"
   }
 }

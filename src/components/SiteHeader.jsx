@@ -21,6 +21,7 @@ export default function SiteHeader({ currentPage = 'home' }) {
       <a href={marketsHref} onClick={close}>Markets</a>
       <a className={currentPage === 'rules' ? 'nav-active' : ''} href="/rules.html" onClick={close}>Rules</a>
       <a className={currentPage === 'faq' ? 'nav-active' : ''} href="/faq.html" onClick={close}>FAQ</a>
+      <a className={currentPage === 'dashboard' ? 'nav-active' : ''} href="/dashboard.html" onClick={close}>Dashboard</a>
       {clerkConfigured ? <>
         <Show when="signed-out">
           <SignInButton mode="modal"><button className="nav-auth-link" type="button" onClick={close}>Login</button></SignInButton>

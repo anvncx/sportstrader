@@ -4,3 +4,4 @@
 .nav-signup-link{color:var(--lime)}
 .nav-user{display:inline-flex;align-items:center}
 @media(max-width:720px){.nav-auth-link{text-align:left}.nav-signup-link{padding:0}}
+.auth-redirect-loading{min-height:100vh;display:grid;place-items:center;background:#08090b;color:#b7f34a;font-size:13px;font-weight:600;letter-spacing:.2px}
