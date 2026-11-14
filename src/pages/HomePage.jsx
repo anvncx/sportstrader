@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { ArrowRight, ArrowUpRight, Crosshair, ShieldCheck } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, CircleHelp, Crosshair, ShieldCheck } from 'lucide-react';
 import FluxLines from '../components/FluxLines.jsx';
 import { AnimatedBeam } from '../components/AnimatedBeam.jsx';
 import ShimmerButton from '../components/ShimmerButton.jsx';
@@ -12,9 +12,9 @@ const formatNaira = amount => `₦${amount.toLocaleString('en-NG')}`;
 export default function HomePage() {
   const [accountSize, setAccountSize] = useState(ACCOUNT_SIZES[0]);
   const [oddsTarget, setOddsTarget] = useState(3.2);
+  const [targetHelp, setTargetHelp] = useState(null);
   const flowRef = useRef(null);
   const accountRef = useRef(null);
-  const marketsRef = useRef(null);
   const actionRef = useRef(null);
   const sizeIndex = ACCOUNT_SIZES.indexOf(accountSize);
   const basePrice = CHALLENGE_PRICES[sizeIndex];
@@ -38,8 +38,7 @@ export default function HomePage() {
     </section>
 
     <div className="landing-flow" ref={flowRef}>
-      <AnimatedBeam className="landing-beam" containerRef={flowRef} fromRef={accountRef} toRef={marketsRef} curvature={0}/>
-      <AnimatedBeam className="landing-beam" containerRef={flowRef} fromRef={marketsRef} toRef={actionRef} curvature={0}/>
+      <AnimatedBeam className="landing-beam" containerRef={flowRef} fromRef={accountRef} toRef={actionRef} curvature={0}/>
 
       <section className="flow-section account-section" id="account">
         <div className="shell flow-shell account-new-layout">
@@ -50,18 +49,12 @@ export default function HomePage() {
             <div className="purchase-numbers"><div><span className="micro-label">ACCOUNT SIZE</span><strong>{formatNaira(accountSize)}</strong></div><div><span className="micro-label">CHALLENGE PRICE</span><strong className="lime-number">{formatNaira(challengePrice)}</strong>{oddsTarget === 6.2 && <div className="discount-detail"><del>{formatNaira(basePrice)}</del><span>30% OFF</span></div>}</div></div>
             <div className="account-size-control"><div className="selector-heading"><label htmlFor="account-size-slider">Select account size</label><span>{sizeIndex + 1} / {ACCOUNT_SIZES.length}</span></div><input id="account-size-slider" className="account-size-slider" type="range" min="0" max={ACCOUNT_SIZES.length - 1} step="1" value={sizeIndex} aria-valuetext={`${formatNaira(accountSize)} account`} onChange={event => setAccountSize(ACCOUNT_SIZES[Number(event.target.value)])}/><div className="account-size-options" aria-label="Choose account size">{ACCOUNT_SIZES.map(size => <ShimmerButton key={size} type="button" className={size === accountSize ? 'selected' : ''} shimmerColor="rgba(183,243,74,.55)" duration="4s" onHoverOnly aria-pressed={size === accountSize} onClick={() => setAccountSize(size)}>{size / 1000}k</ShimmerButton>)}</div></div>
             <div className="purchase-specs"><div><span className="spec-symbol"><Crosshair size={16}/></span><span><small>Sports</small><b>Football &amp; basketball</b></span></div></div>
-            <fieldset className="odds-target-control"><legend className="micro-label">CHALLENGE BETSLIP ODDS TARGET</legend><div className="odds-target-options"><label className={oddsTarget === 3.2 ? 'target-choice selected' : 'target-choice'}><input type="radio" name="odds-target" value="3.2" checked={oddsTarget === 3.2} onChange={() => setOddsTarget(3.2)}/><span className="target-value">3.20</span><span className="target-caption">Standard price</span></label><label className={oddsTarget === 6.2 ? 'target-choice selected' : 'target-choice'}><input type="radio" name="odds-target" value="6.2" checked={oddsTarget === 6.2} onChange={() => setOddsTarget(6.2)}/><span className="target-value">6.20</span><span className="target-caption">30% off</span></label></div></fieldset>
-            <div className="purchase-rules"><span className="micro-label">ODDS REQUIREMENTS</span><div className="rule-pair"><div><strong>{oddsTarget.toFixed(2)}</strong><span>minimum combined</span></div><span className="rule-divider"/><div><strong>1.60</strong><span>minimum per selection</span></div></div></div>
+            <fieldset className="odds-target-control"><legend className="micro-label">CHALLENGE BETSLIP ODDS TARGET</legend><div className="odds-target-options">
+              <div className="target-option"><label className={oddsTarget === 3.2 ? 'target-choice selected' : 'target-choice'}><input type="radio" name="odds-target" value="3.2" checked={oddsTarget === 3.2} onChange={() => setOddsTarget(3.2)}/><span className="target-value">3.20</span><span className="target-caption">Standard price</span></label><button className="target-help-button" type="button" aria-label="How the 3.20 target works" aria-expanded={targetHelp === 3.2} aria-controls="target-help-32" onClick={() => setTargetHelp(targetHelp === 3.2 ? null : 3.2)}><CircleHelp size={14}/></button></div>
+              <div className="target-option"><label className={oddsTarget === 6.2 ? 'target-choice selected' : 'target-choice'}><input type="radio" name="odds-target" value="6.2" checked={oddsTarget === 6.2} onChange={() => setOddsTarget(6.2)}/><span className="target-value">6.20</span><span className="target-caption">30% off</span></label><button className="target-help-button" type="button" aria-label="How the 6.20 target works" aria-expanded={targetHelp === 6.2} aria-controls="target-help-62" onClick={() => setTargetHelp(targetHelp === 6.2 ? null : 6.2)}><CircleHelp size={14}/></button></div>
+            </div><div className={`target-help-copy ${targetHelp === 3.2 ? 'is-open' : ''}`} id="target-help-32" hidden={targetHelp !== 3.2}>Your challenge betslip needs combined odds of at least 3.20. Each selection must be at least 1.60 odds, with two or more selections. Standard price applies.</div><div className={`target-help-copy ${targetHelp === 6.2 ? 'is-open' : ''}`} id="target-help-62" hidden={targetHelp !== 6.2}>Your challenge betslip needs combined odds of at least 6.20. Each selection must be at least 1.60 odds, with two or more selections. The challenge price is 30% lower.</div></fieldset>
             <div className="purchase-actions"><ShimmerButton as="a" className="button purchase-button" href="/how-it-works.html">See the steps <ArrowRight size={15}/></ShimmerButton><ShimmerButton as="a" className="button purchase-button rules-button" href="/rules.html">View Rules <ShieldCheck size={15}/></ShimmerButton></div>
           </div>
-        </div>
-      </section>
-
-      <section className="flow-section markets-section" id="markets">
-        <div className="shell flow-shell markets-layout">
-          <span className="flow-marker" ref={marketsRef} aria-label="Supported sports section"><b>02</b></span>
-          <div className="markets-copy"><div className="eyebrow"><span className="eyebrow-line"/> The playing field</div><h2>Pick your<br/><span>strong suit.</span></h2><p>Two sports. Full-time markets. Bring your match insight.</p><a className="inline-arrow" href="/faq.html">Read the essentials <ArrowRight size={15}/></a></div>
-          <div className="market-list"><article className="market-item"><div className="market-emblem football-emblem"><span/><span/><span/></div><div><span className="micro-label">SUPPORTED SPORT 01</span><h3>Football</h3></div><ArrowUpRight size={19}/></article><article className="market-item"><div className="market-emblem basketball-emblem"><span/><span/></div><div><span className="micro-label">SUPPORTED SPORT 02</span><h3>Basketball</h3></div><ArrowUpRight size={19}/></article></div>
         </div>
       </section>
 
